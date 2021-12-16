@@ -8,19 +8,22 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "boards")
+@Table(name = "members")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Board {
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer uid;
+    private Integer mid;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "content")
-    private String content;
+    @Column(name = "tel")
+    private String tel;
+
+    @Column(name = "addr")
+    private String addr;
 }
