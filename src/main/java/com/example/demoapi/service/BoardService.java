@@ -23,18 +23,19 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
+    // list all boards
     public Page<Board> listAllPagedBoards(Pageable pageable) {
         return boardRepository.findAll(pageable);
-    }
-
-    // create board rest api
-    public Board createBoard(@RequestBody Board board) {
-        return boardRepository.save(board);
     }
 
     // list all boards
     public List<Board> listAllBoards() {
         return boardRepository.findAll();
+    }
+
+    // create board rest api
+    public Board createBoard(@RequestBody Board board) {
+        return boardRepository.save(board);
     }
 
     // get board by id
