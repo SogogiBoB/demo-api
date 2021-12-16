@@ -38,14 +38,6 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    // get board by id
-    public ResponseEntity<Board> getBoardById(@PathVariable Integer id) {
-        Board board = boardRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Board not exist with id :" + id));
-
-        return ResponseEntity.ok(board);
-    }
-
     // update board
     public ResponseEntity<Board> updateBoard(@RequestBody Board boardDetails) {
         int id = boardDetails.getUid();
