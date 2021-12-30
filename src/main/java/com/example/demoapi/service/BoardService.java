@@ -24,12 +24,12 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     // list all boards
-    public Page<Board> listAllPagedBoards(Pageable pageable) {
+    public Page<Board> selectAllPagedBoard(Pageable pageable) {
         return boardRepository.findAll(pageable);
     }
 
     // list all boards
-    public List<Board> listAllBoards() {
+    public List<Board> selectAllBoard() {
         return boardRepository.findAll();
     }
 

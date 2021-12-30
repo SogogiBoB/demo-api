@@ -21,26 +21,27 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-    @GetMapping("/pagedBoards")
-    public Page<Board> listAllPagedBoards(Pageable pageable, @RequestParam int page, @RequestParam int size) {
+    //list all boards with paging
+    @GetMapping("/pagedBoard")
+    public Page<Board> selectAllPagedBoard(Pageable pageable, @RequestParam int page, @RequestParam int size) {
         pageable = PageRequest.of(page, size);
-        return boardService.listAllPagedBoards(pageable);
+        return boardService.selectAllPagedBoard(pageable);
     }
 
     // list all boards
-    @GetMapping("/boards")
-    public List<Board> listAllBoards() {
-        return boardService.listAllBoards();
+    @GetMapping("/board")
+    public List<Board> selectAllBoard() {
+        return boardService.selectAllBoard();
     }
 
-    // create board rest api
-    @PostMapping("/boards")
+    // create board
+    @PostMapping("/board")
     public Board createBoard(@RequestBody Board board) {
         return boardService.createBoard(board);
     }
 
     // update board
-    @PutMapping("/updateBoards")
+    @PutMapping("/updateBoard")
     public ResponseEntity<Board> updateBoard(@RequestBody Board boardDetails) {
         return boardService.updateBoard(boardDetails);
     }
