@@ -1,10 +1,11 @@
 package com.example.demoapi.controller;
 
 import com.example.demoapi.model.Board;
+import com.example.demoapi.model.SearchUtil;
 import com.example.demoapi.service.BoardService;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -15,27 +16,65 @@ import java.util.Map;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/board/api")
 public class BoardController {
 
-    @Autowired
-    private BoardService boardService;
+//    @Autowired
+    private final BoardService boardService;
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     //list all boards with paging
     @GetMapping("/pagedBoard")
-    public Page<Board> selectAllPagedBoard(Pageable pageable, @RequestParam int page, @RequestParam int size) {
-        pageable = PageRequest.of(page, size);
-        return boardService.selectAllPagedBoard(pageable);
+    @ResponseBody
+    public ResponseEntity<?> selectAllPagedBoard(
+            Pageable pageable,
+            @RequestParam(value = "page", required = false) int page,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "searchCode", required = false) String searchCode
+    ) {
+        log.debug("openBoardList");
+
+        //index가 0부터 시작하기 때문에 -1을 해줘야 첫 페이지부터 출력됨
+        int pageForJpa = page-1;
+        pageable = PageRequest.of(pageForJpa, 10);
+
+        System.out.println("input keyword : "+keyword);
+
+        if(keyword == null || keyword.isEmpty()) {
+            return boardService.selectAllPagedBoard(pageable);
+
+        } else {
+            SearchUtil item = new SearchUtil();
+
+            System.out.println("input searchCode : "+searchCode);
+
+            item.setSearchCode(searchCode);
+            item.setKeyword(keyword);
+            item.setPage(page-1);
+            item.setSize(10);
+
+            return boardService.selectKeyword(item);
+        }
     }
 
     // list all boards
-    @GetMapping("/board")
-    public List<Board> selectAllBoard() {
-        return boardService.selectAllBoard();
+    @GetMapping("/boardList.json")
+    @ResponseBody
+    public List <Board> selectAllBoard() {
+        List <Board> list = boardService.selectAllBoard();
+        return list;
+    }
+
+    @GetMapping("/selectBoard.json/{uid}")
+    @ResponseBody
+    public Board selectBoard(@PathVariable Integer uid) {
+        return boardService.selectBoard(uid);
     }
 
     // create board
-    @PostMapping("/board")
+    @PostMapping("/insertBoard.json")
     public Board createBoard(@RequestBody Board board) {
         return boardService.createBoard(board);
     }
