@@ -40,15 +40,11 @@ public class BoardController {
         int pageForJpa = page-1;
         pageable = PageRequest.of(pageForJpa, 10);
 
-        System.out.println("input keyword : "+keyword);
-
         if(keyword == null || keyword.isEmpty()) {
             return boardService.selectAllPagedBoard(pageable);
 
         } else {
             SearchUtil item = new SearchUtil();
-
-            System.out.println("input searchCode : "+searchCode);
 
             item.setSearchCode(searchCode);
             item.setKeyword(keyword);
@@ -91,4 +87,8 @@ public class BoardController {
         return boardService.deleteBoard(uid);
     }
 
+    @PostMapping("/massiveInsert")
+    public ResponseEntity<?> massiveInsert() {
+        return boardService.massiveInsert();
+    }
 }

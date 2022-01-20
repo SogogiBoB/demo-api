@@ -12,12 +12,8 @@
         </encoder>
     </appender>
 
-    <logger name="board" level="DEBUG" appender-ref="console"/>
-    <!-- DEBUG레벨 로그를 출력하는 형식은 console이라는 이름의 appender를 사용 -->
-    <logger name="org.springframework" level="error"/>
-    <logger name="org.springframework.jdbc" level="error"/>
+
     <logger name="jdbc.sqlonly" level="INFO" appender-ref="console-infolog"/>
-    <logger name="jdbc.resultsettable" level="INFO" appender-ref="console-infolog"/>
 
     <root level="error">
         <appender-ref ref="console"/>

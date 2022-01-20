@@ -100,4 +100,19 @@ public class BoardService {
 
         return ResponseEntity.ok(map);
     }
+
+    public ResponseEntity<?>  massiveInsert() {
+        for(int i=1; i<31; i++) {
+            Board item = new Board();
+            Date date = new Date(System.currentTimeMillis());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            item.setTitle("test dummy"+i);
+            item.setContent("test content for the dummy");
+            item.setFrstRegistDate(dateFormat.format(date));
+
+            boardRepository.save(item);
+        }
+        return ResponseEntity.ok("Massive insertion has completed");
+    }
 }
