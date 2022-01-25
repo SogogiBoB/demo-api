@@ -1,0 +1,47 @@
+version: "3"
+
+networks:
+  test:
+
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariajhjo
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./mariadb:/var/lib/mysql
+    #build: .
+    networks:
+      - test
+
+  spring_boot:
+    build:
+      context: .
+      dockerfile: spring-Dockerfile
+    image: jhjo_spring_boot
+    container_name: spring_jhjo
+    ports:
+      - "8080:8080"
+    networks:
+      - test
+    depends_on:
+      - mariadb
+
+  nginx:
+    build:
+      context: ./board-front-test/board-app
+      dockerfile: nginx-Dockerfile
+    image: nginx_jhjo
+    container_name: nginx_react
+    ports:
+      - "3000:80"
+    networks:
+      - test
+    depends_on:
+      - spring_boot
