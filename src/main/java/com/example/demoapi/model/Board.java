@@ -2,6 +2,7 @@ package com.example.demoapi.model;
 
 import lombok.*;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -28,6 +29,11 @@ public class Board {
 
     @Column(name = "updateDate")
     private String updateDate;
+
+    @Column(name ="fileName")
+    private String fileName;
+
+    private String extension;
 
     @Builder(builderClassName = "ByUidBuilder", builderMethodName = "BoardBuilder")
     public Board (int uid, String title) {

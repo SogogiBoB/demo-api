@@ -63,6 +63,7 @@ public class BoardController {
         return list;
     }
 
+    // get a board
     @GetMapping("/selectBoard.json/{uid}")
     @ResponseBody
     public Board selectBoard(@PathVariable Integer uid) {

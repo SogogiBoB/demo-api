@@ -68,6 +68,7 @@ public class BoardService {
 
         board.setTitle(boardDetails.getTitle());
         board.setContent(boardDetails.getContent());
+        board.setFileName(boardDetails.getFileName());
 
         Board updatedBoard = boardRepository.save(board);
         return ResponseEntity.ok(updatedBoard);
@@ -101,7 +102,7 @@ public class BoardService {
         return ResponseEntity.ok(map);
     }
 
-    public ResponseEntity<?>  massiveInsert() {
+    public ResponseEntity<?> massiveInsert() {
         for(int i=1; i<31; i++) {
             Board item = new Board();
             Date date = new Date(System.currentTimeMillis());
